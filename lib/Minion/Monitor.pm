@@ -28,11 +28,11 @@ sub startup {
   my $home = $app->home;
   $app->log->debug("Home directory: $home") if DEBUG;
 
-  $app->static->paths([$home->rel_dir('public')]);
-  $app->renderer->paths([$home->rel_dir('templates')]);
+  $app->static->paths([$home->child('public')->to_string]);
+  $app->renderer->paths([$home->child('templates')->to_string]);
   if (DEBUG) {
-    $app->log->debug('Static file directories: ' . $app->dumper($app->static->paths));
-    $app->log->debug('Templates directories: ' . $app->dumper($app->renderer->paths));
+    $app->log->debug('Static dirs: ' . $app->dumper($app->static->paths));
+    $app->log->debug('Template dirs: ' . $app->dumper($app->renderer->paths));
   }
 
   $r->get('/' => sub { shift->redirect_to('jobs') });
