@@ -2,8 +2,9 @@ package Minion::Monitor;
 
 use Mojo::Base 'Mojolicious';
 
-use Mojo::Home;
 use File::Spec ();
+use Minion;
+use Mojo::Home;
 
 use constant DEBUG => $ENV{MINION_MONITOR_DEBUG};
 
@@ -14,7 +15,9 @@ sub home {
   Mojo::Home->new($home);
 };
 
-has minion => sub { Minion->new({File => 'minion.db'}) };
+has minion => sub {
+    Minion->new(Pg => 'postgresql:///?service=minion-monitor');
+};
 
 sub startup {
   my $app = shift;
